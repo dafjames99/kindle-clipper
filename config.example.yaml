@@ -1,0 +1,33 @@
+# Copy this file to config.yaml and fill in your real values.
+# config.yaml should NOT be committed to git (it contains your app password).
+
+# Path to your Obsidian vault
+vault_path: "~/Documents/ObsidianVault"
+
+# Subfolder (relative to vault_path) where Obsidian Web Clipper saves notes
+clippings_subdir: "Clippings"
+
+# Subfolder(s) (relative to vault_path) where attachments/images live.
+# Add more entries if your vault uses multiple attachment locations.
+attachment_dirs:
+  - "attachments"
+
+# Where generated EPUBs are saved on your laptop
+output_dir: "~/KindleClipper/output"
+
+# Path to the Kindle CSS stylesheet (included in this repo)
+css_path: "./kindle.css"
+
+# Where to store the processed-files tracking state
+state_file: "./state.json"
+
+# Your Kindle's "Send to Kindle" email address (find it in Amazon ->
+# Manage Your Content and Devices -> Devices -> [your Kindle])
+kindle_email: "yourname_xxxx@kindle.com"
+
+# Gmail account used to send the emails. Must be added as an approved
+# sending address in Amazon's "Send to Kindle" email settings.
+gmail_address: "you@gmail.com"
+
+# Gmail App Password (NOT your normal password) - go to gmail > "mange google account" > search "app passwords" > create a new app password.
+gmail_app_password: "xxxx xxxx xxxx xxxx"
