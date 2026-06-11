@@ -5,6 +5,13 @@ There's a lot of content online that I want to read, but must do so on a compute
 
 This project gets content (e.g. Blogs, Essays^[As well as journals & papers, pending `.pdf` compatibility]) straight **from google chrome to my kindle**, in clean `EPUB` format.
 
+## What about the Kindle Chrome extension?
+This does exist, but is inadequate for me personally because:
+- I *already* use Obsidian (& the associated web clipper extension)
+- It's more prone to error & is less flexible than Obsidian web clipper.
+
+This script is easy enough for me & I can set up a *CRON* / folder-watcher to handle the job for specific subsets of my Obsidian clippings.
+
 # Setup
 
 Clone this repository first of all.
