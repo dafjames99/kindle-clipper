@@ -19,6 +19,7 @@ from watchdog.events import FileCreatedEvent, FileModifiedEvent, FileSystemEvent
 from watchdog.observers import Observer
 
 from . import state
+from .cli import _watched_dirs
 from .pipeline import process_file
 
 log = logging.getLogger(__name__)
@@ -59,21 +60,24 @@ class _ClippingsHandler(FileSystemEventHandler):
 
 
 def watch(cfg: dict, dry_run: bool) -> None:
-    vault_path = Path(cfg["vault_path"]).expanduser()
-    clippings_dir = vault_path / cfg.get("clippings_subdir", "Clippings")
     state_path = Path(cfg.get("state_file", "state.json")).expanduser()
-
     st = state.State(state_path)
 
+    dirs = _watched_dirs(cfg)
+
     # Catch up on anything that arrived while the watcher was offline.
-    for md_path in sorted(clippings_dir.glob("*.md")):
-        process_file(md_path, cfg, st, dry_run)
+    for watch_dir in dirs:
+        for md_path in sorted(watch_dir.glob("*.md")):
+            process_file(md_path, cfg, st, dry_run)
 
     handler = _ClippingsHandler(cfg, st, dry_run)
     observer = Observer()
-    observer.schedule(handler, str(clippings_dir), recursive=False)
+    for watch_dir in dirs:
+        observer.schedule(handler, str(watch_dir), recursive=False)
+        log.info("Watching %s", watch_dir)
+
     observer.start()
-    log.info("Watching %s  (Ctrl-C to stop)", clippings_dir)
+    log.info("(Ctrl-C to stop)")
 
     try:
         while True:

@@ -17,6 +17,14 @@ from .pipeline import process_file
 log = logging.getLogger(__name__)
 
 
+def _watched_dirs(cfg: dict) -> list[Path]:
+    vault_path = Path(cfg["vault_path"]).expanduser()
+    dirs = [vault_path / cfg.get("clippings_subdir", "Clippings")]
+    if arxiv := cfg.get("arxiv_clippings_dir"):
+        dirs.append(vault_path / arxiv)
+    return dirs
+
+
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(message)s")
 
@@ -26,24 +34,16 @@ def main() -> None:
     args = parser.parse_args()
 
     cfg = yaml.safe_load(args.config.read_text())
-
-    vault_path = Path(cfg["vault_path"]).expanduser()
-    clippings_dir = vault_path / cfg.get("clippings_subdir", "Clippings")
     state_path = Path(cfg.get("state_file", "state.json")).expanduser()
-
     st = state.State(state_path)
 
-    md_files = sorted(clippings_dir.glob("*.md"))
-    if not md_files:
-        log.info("No markdown files found in %s", clippings_dir)
-        return
-
     new_count = 0
-    for md_path in md_files:
-        if st.is_processed(md_path):
-            continue
-        new_count += 1
-        process_file(md_path, cfg, st, args.dry_run)
+    for watch_dir in _watched_dirs(cfg):
+        for md_path in sorted(watch_dir.glob("*.md")):
+            if st.is_processed(md_path):
+                continue
+            new_count += 1
+            process_file(md_path, cfg, st, args.dry_run)
 
     if new_count == 0:
         log.info("Nothing new to process.")

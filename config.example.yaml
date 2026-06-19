@@ -5,7 +5,10 @@
 vault_path: "~/Documents/ObsidianVault"
 
 # Subfolder (relative to vault_path) where Obsidian Web Clipper saves notes
-clippings_subdir: "Clippings"
+clippings_subdir: "Clippings/To-Kindle"
+
+# Subfolder (relative to vault_path) for arXiv/journal paper clippings
+arxiv_clippings_dir: "Arxiv-papers/To-Kindle"
 
 # Subfolder(s) (relative to vault_path) where attachments/images live.
 # Add more entries if your vault uses multiple attachment locations.
