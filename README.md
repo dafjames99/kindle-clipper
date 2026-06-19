@@ -42,21 +42,23 @@ Though this does require having the [**Obsidian**](https://obsidian.md/) app ins
 ## Makefile
 I like using makefiles for repetitive bash procedures. The `Makefile` simplifies bash scripts:
 ```bash
-make run
-make dry-run
+make run          # convert and send
+make dry-run      # convert only, no email
+make watch        # folder-watcher (see below)
 make cleanup
 ```
+
 ## Direct
 ### Full
 Full run (from root directory):
 ```bash
-uv run python -m src.cli --config config.yaml
+uv run python -m kindle_clipper.cli --config config.yaml
 ```
 
 ### Dry-run
 Or only for converting (i.e. no email sending):
 ```bash
-uv run python -m src.cli --config config.yaml --dry-run
+uv run python -m kindle_clipper.cli --config config.yaml --dry-run
 ```
 
 The `state.json` file will keep track of what files have been processed to avoid duplicating conversions.
@@ -67,4 +69,41 @@ If you don't want to store the EPUBs locally, or if you've previously ran --dry-
 2. Erase contents of `output_dir`
 ```bash
 uv run python scripts/cleanup.py
+```
+
+## Folder-watcher (recommended)
+Rather than running the script manually, you can run a persistent watcher that processes new clippings as soon as they appear in the folder.
+
+### One-off
+```bash
+make watch        # watch and send
+make watch-dry    # watch, convert only
+```
+
+### Background service via launchd (macOS)
+To have the watcher start automatically on login and restart if it ever crashes, register it as a LaunchAgent:
+
+1. Copy and fill in the plist template:
+```bash
+cp com.kindleclipper.watch.plist.example com.kindleclipper.watch.plist
+```
+Edit `com.kindleclipper.watch.plist` and replace the three placeholder paths:
+- `/path/to/uv` → output of `which uv`
+- `/path/to/kindle-clipper` → output of `pwd` from the project root
+- `/Users/yourname/` → your actual home directory
+
+2. Install and start the service:
+```bash
+make install-service
+```
+
+3. Check it's running and tail the log:
+```bash
+launchctl print gui/$(id -u)/com.kindleclipper.watch
+make service-logs
+```
+
+To stop and remove the service:
+```bash
+make uninstall-service
 ```

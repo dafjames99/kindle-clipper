@@ -8,4 +8,5 @@ dependencies = [
     "bs4>=0.0.2",
     "cairosvg>=2.9.0",
     "requests>=2.34.2",
+    "watchdog>=6.0.0",
 ]

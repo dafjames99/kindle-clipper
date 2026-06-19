@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.kindleclipper.watch</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/path/to/uv</string>
+        <string>run</string>
+        <string>python</string>
+        <string>-m</string>
+        <string>kindle_clipper.watch</string>
+        <string>--config</string>
+        <string>config.yaml</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/path/to/kindle-clipper</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/yourname/Library/Logs/kindleclipper.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/yourname/Library/Logs/kindleclipper.log</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+</dict>
+</plist>
