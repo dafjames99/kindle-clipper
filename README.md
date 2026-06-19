@@ -16,8 +16,18 @@ This script is easy enough for me & I can set up a *CRON* / folder-watcher to ha
 
 Clone this repository first of all.
 
-## Environement
-Assuming you have `uv` python package manager installed:
+## Environment
+### System dependencies
+Install these before anything else:
+- [**Pandoc**](https://pandoc.org/installing.html) — the EPUB converter
+- [**uv**](https://docs.astral.sh/uv/getting-started/installation/) — Python package manager
+
+On macOS both are available via Homebrew:
+```bash
+brew install pandoc uv
+```
+
+### Python dependencies
 ```bash
 uv sync
 ```
